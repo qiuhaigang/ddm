@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.baizhi.ddm.dao.ProductDao">
+<resultMap id="productMap" type="Product">
+    <id column="book_id" property="bookId"/>
+    <result column="book_name" property="bookName"/>
+    <result column="product_image" property="productImage"/>
+    <result column="book_price" property="price"/>
+    <result column="Dangprice" property="dangPrice"/>
+    <result column="inventory" property="inventory"/>
+    <result column="author" property="author"/>
+    <result column="press" property="press"/>
+    <result column="custome_score" property="customeScore"/>
+    <result column="salenum" property="salaNum"/>
+    <association property="category" javaType="Category">
+        <id column="category_id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="count" property="count"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="category_type" property="categoryType"/>
+    </association>
+</resultMap>
+<select id="getCount" resultType="int">
+    select count(*) from v1
+</select>
+
+    <select id="queryAll" resultMap="productMap">
+
+        select * from v1 limit #{start},#{rows}
+
+    </select>
+
+    <delete id="deleteMany">
+        delete from dd_product where book_id in
+        <foreach collection="array" open="(" close=")" separator="," item="id">#{id}</foreach>
+    </delete>
+
+
+</mapper>
+
+
